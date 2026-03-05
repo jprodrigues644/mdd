@@ -7,9 +7,10 @@ import com.orion.mdd.dto.response.PostResponse;
 import java.util.List;
 
 public interface PostService {
-    PostResponse createPost(Long authorId, CreatePostRequest request);
+    PostResponse createPost(String username, CreatePostRequest request);
     PostResponse getPostById(Long postId);
     List<PostListResponse> getAllPosts();
     List<PostListResponse> getPostsBySubject(Long subjectId);
     List<PostListResponse> getPostsByAuthor(Long authorId);
+    List<PostListResponse> getFeed(String username);
 }

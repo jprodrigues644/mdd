@@ -3,10 +3,11 @@ package com.orion.mdd.controller;
 import com.orion.mdd.dto.request.UpdateUserRequest;
 import com.orion.mdd.dto.response.UserResponse;
 import com.orion.mdd.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,21 +19,23 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
-        UserResponse response = userService.getUserById(userId);
-        return ResponseEntity.ok(response);
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me() {
+        String username = getAuthenticatedUsername();
+        return ResponseEntity.ok(userService.getMe(username));
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UpdateUserRequest request) {
-        UserResponse response = userService.updateUser(userId, request);
-        return ResponseEntity.ok(response);
+    @PutMapping("/me")
+    public ResponseEntity<UserResponse> updateMe(@Valid @RequestBody UpdateUserRequest request) {
+        String username = getAuthenticatedUsername();
+        return ResponseEntity.ok(userService.updateMe(username, request));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> responses = userService.getAllUsers();
-        return ResponseEntity.ok(responses);
+    private String getAuthenticatedUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated() || auth.getName() == null) {
+            throw new RuntimeException("Unauthorized");
+        }
+        return auth.getName();
     }
 }

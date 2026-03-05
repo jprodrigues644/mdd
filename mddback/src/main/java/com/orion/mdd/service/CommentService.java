@@ -6,6 +6,6 @@ import com.orion.mdd.dto.response.CommentResponse;
 import java.util.List;
 
 public interface CommentService {
-    CommentResponse createComment(Long postId, Long authorId, CreateCommentRequest request);
+    CommentResponse createComment(Long postId, CreateCommentRequest request);
     List<CommentResponse> getCommentsByPost(Long postId);
 }

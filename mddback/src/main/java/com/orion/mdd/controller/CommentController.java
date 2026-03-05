@@ -17,17 +17,21 @@ public class CommentController {
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
+// mETTRE DANS  lE pOST coNTROLLER
+    @PostMapping("/post/{postId}")
+    public ResponseEntity<CommentResponse> createComment(
+            @PathVariable Long postId,
+            @RequestBody CreateCommentRequest request) {
 
-    @PostMapping("/post/{postId}/user/{authorId}")
-    public ResponseEntity<CommentResponse> createComment(@PathVariable Long postId, 
-        @PathVariable Long authorId, @RequestBody CreateCommentRequest request) {
-        CommentResponse response = commentService.createComment(postId, authorId, request);
+        CommentResponse response = commentService.createComment(postId, request);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/post/{postId}")
     public ResponseEntity<List<CommentResponse>> getCommentsByPost(@PathVariable Long postId) {
+
         List<CommentResponse> responses = commentService.getCommentsByPost(postId);
+
         return ResponseEntity.ok(responses);
     }
 }

@@ -7,7 +7,7 @@ import com.orion.mdd.model.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {CommentMapper.class})  // add this
+@Mapper(componentModel = "spring", uses = {CommentMapper.class})
 public interface PostMapper {
 
     @Mapping(target = "id", ignore = true)

@@ -11,7 +11,11 @@ import com.orion.mdd.repository.PostRepository;
 import com.orion.mdd.repository.SubjectRepository;
 import com.orion.mdd.repository.UserRepository;
 import com.orion.mdd.service.PostService;
+
+
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,21 +37,25 @@ public class PostServiceImpl implements PostService {
         this.postMapper = postMapper;
     }
 
-    @Override
-    public PostResponse createPost(Long authorId, CreatePostRequest request) {
-        User author = userRepository.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        Subject subject = subjectRepository.findById(request.getSubjectId())
-                .orElseThrow(() -> new RuntimeException("Subject not found"));
+   @Override
+public PostResponse createPost(String username, CreatePostRequest request) {
 
-        Post post = postMapper.toPost(request);
-        post.setAuthor(author);
-        post.setSubject(subject);
-        post.setCreationDate(LocalDateTime.now());
+    User author = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Post savedPost = postRepository.save(post);
-        return postMapper.toPostResponse(savedPost);
-    }
+    Subject subject = subjectRepository.findById(request.getSubjectId())
+            .orElseThrow(() -> new RuntimeException("Subject not found"));
+
+    Post post = postMapper.toPost(request);
+
+    post.setAuthor(author);
+    post.setSubject(subject);
+    post.setCreationDate(LocalDateTime.now());
+
+    Post savedPost = postRepository.save(post);
+
+    return postMapper.toPostResponse(savedPost);
+}
 
     @Override
     public PostResponse getPostById(Long postId) {
@@ -66,7 +74,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListResponse> getPostsBySubject(Long subjectId) {
-        List<Post> posts = postRepository.findBySubjectId(subjectId);
+        List<Post> posts = postRepository.findBySubjectIdOrderByCreationDateDesc(subjectId);
         return posts.stream()
                 .map(postMapper::toPostListResponse)
                 .collect(Collectors.toList());
@@ -74,7 +82,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostListResponse> getPostsByAuthor(Long authorId) {
-        List<Post> posts = postRepository.findByAuthorId(authorId);
+        List<Post> posts = postRepository.findByAuthorIdOrderByCreationDateDesc(authorId);
+        return posts.stream()
+                .map(postMapper::toPostListResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostListResponse> getFeed(String username) {
+        List<Post> posts = postRepository.findFeedByUsername(username);
         return posts.stream()
                 .map(postMapper::toPostListResponse)
                 .collect(Collectors.toList());

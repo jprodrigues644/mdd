@@ -3,27 +3,32 @@ package com.orion.mdd.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "subjects")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
-
-    @Column( nullable = false)
     private String description;
 
     @ManyToMany(mappedBy = "subscriptions")
-    private Set<User> subscribers;
+    @ToString.Exclude
+    private Set<User> subscribers = new HashSet<>();
 }

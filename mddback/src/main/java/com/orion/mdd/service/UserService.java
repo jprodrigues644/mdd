@@ -11,4 +11,8 @@ public interface UserService {
     UserResponse updateUser(Long userId, UpdateUserRequest request);
     List<UserResponse> getAllUsers();
     User getUserEntityById(Long userId);
+
+    //me
+    UserResponse getMe(String username);
+    UserResponse updateMe(String username, UpdateUserRequest request);
 }
