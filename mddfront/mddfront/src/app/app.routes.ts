@@ -1,3 +1,17 @@
 import { Routes } from '@angular/router';
+import { Landing } from './pages/landing/landing';
+import { Login } from './pages/login/login';import { Register } from './pages/register/register';
+import { Feed } from './pages/feed/feed';
 
-export const routes: Routes = [];
+
+export const routes:  Routes = [
+
+{ path: '', component: Landing },
+
+{ path: 'login', component: Login },
+
+{ path: 'register', component: Register },
+
+{ path: 'feed', component: Feed }
+
+];
