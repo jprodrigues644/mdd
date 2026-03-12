@@ -1,17 +1,19 @@
-<div class="landing">
+<div class="landing-container">
 
-<img src="assets/logo.png">
+  <div class="landing-card">
 
-<div class="buttons">
+<img src="assets/logo.png" alt="Logo MDD" class="logo">
 
-<button routerLink="/login">
-Se connecter
-</button>
+    <div class="buttons">
+      <button mat-stroked-button color="primary"  (click)="onLoginClick()">
+        Se connecter
+      </button>
 
-<button routerLink="/register">
-S'inscrire
-</button>
+      <button mat-stroked-button color="primary" (click)="onRegisterClick()">
+        S'inscrire
+      </button>
+    </div>
 
-</div>
+  </div>
 
 </div>
