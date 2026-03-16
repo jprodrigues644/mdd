@@ -1,13 +1,5 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
 import { App } from './app/app';
-import { routes } from './app/app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { jwtInterceptor } from './app/core/interceptors/jwt-interceptor';
+import { appConfig } from './app/app.config';
 
-bootstrapApplication(App, {
-  providers: [provideRouter(routes),
-    provideHttpClient( withInterceptors([jwtInterceptor]))
-
-  ]
-});
+bootstrapApplication(App, appConfig);

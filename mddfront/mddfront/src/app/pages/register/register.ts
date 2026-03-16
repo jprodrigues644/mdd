@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Auth } from '../../core/services/auth';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -82,5 +82,37 @@ export class Register {
       }
     });
   }
+      hasError(fieldName: string, errorType: string): boolean {
+    const field = this.registerForm.get(fieldName);
+    return !!(field?.hasError(errorType) && field.touched);
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const field = this.registerForm.get(fieldName);
+    
+    if (field?.hasError('required')) {
+      return 'Ce champ est obligatoire';
+    }
+    
+    if (field?.hasError('minlength')) {
+      const minLength = field.errors?.['minlength'].requiredLength;
+      return `Minimum ${minLength} caractères`;
+    }
+    
+    if (field?.hasError('email')) {
+      return 'Veuillez entrer une adresse email valide';
+    }
+    
+    if (field?.hasError('maxlength')) {
+      const maxLength = field.errors?.['maxlength'].requiredLength;
+      return `Maximum ${maxLength} caractères`;
+    }
+    
+    return '';
+  }
+  
+
+   goBack(): void {
+  this.router.navigate(['/']);}  // Redirection vers la page d'accueil
 
 }

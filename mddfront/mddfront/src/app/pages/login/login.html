@@ -1,23 +1,24 @@
 <div class="login-container">
   <div class="login-header">
-    <button class="back-button" (click)="goBack()">
-      ←
-    </button>
+    <button class="back-button" (click)="goBack()">←</button>
     <h1>Se connecter</h1>
   </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
     <div class="form-group">
       <label for="usernameOrEmail">E-mail ou nom d'utilisateur</label>
       <input
         type="text"
         id="usernameOrEmail"
         formControlName="usernameOrEmail"
-        placeholder=""
       />
-      <div *ngIf="hasError('usernameOrEmail', 'required')" class="error-message">
-        {{ getErrorMessage('usernameOrEmail') }}
-      </div>
+
+      @if (hasError('usernameOrEmail', 'required')) {
+        <div class="error-message">
+          {{ getErrorMessage('usernameOrEmail') }}
+        </div>
+      }
     </div>
 
     <div class="form-group">
@@ -26,29 +27,26 @@
         type="password"
         id="password"
         formControlName="password"
-        placeholder=""
       />
-      <div *ngIf="hasError('password', 'required')" class="error-message">
-        {{ getErrorMessage('password') }}
-      </div>
-      <div *ngIf="hasError('password', 'minlength')" class="error-message">
-        {{ getErrorMessage('password') }}
-      </div>
+
+      @if (hasError('password', 'required')) {
+        <div class="error-message">
+          {{ getErrorMessage('password') }}
+        </div>
+      }
+
+      @if (hasError('password', 'minlength')) {
+        <div class="error-message">
+          {{ getErrorMessage('password') }}
+        </div>
+      }
     </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
 
-    <button
-      type="submit"
-      class="submit-button"
-      [disabled]="loginForm.invalid || loading"
-    >
-      <span *ngIf="!loading">Se connecter</span>
-      <span *ngIf="loading">Connexion en cours...</span>
-    </button>
   </form>
 </div>
-
-

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../../shared/models/auth.model';
 import { Observable, tap } from 'rxjs';
 
@@ -93,5 +93,5 @@ export class Auth {
       getToken(): string | null {
         return localStorage.getItem('token');
       }
-      
+
 }
