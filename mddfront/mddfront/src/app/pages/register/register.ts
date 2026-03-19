@@ -1,74 +1,49 @@
 import { Component, inject } from '@angular/core';
 import { Auth } from '../../core/services/auth';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
 export class Register {
   private authService = inject(Auth);
   private fb = inject(FormBuilder);
-  private router: Router;
+  private router = inject(Router);
 
-   registerForm!: FormGroup;
   loading = false;
   errorMessage = '';
 
-  constructor(router :Router) {
-    // Initialiser le formulaire avec validations
-    this.router = router;
-    this.registerForm = this.fb.group({
-      username: ['', [
-        Validators.required, 
-        Validators.minLength(3),
-       
-      ]],
-      email: ['', [
-        Validators.required, 
-        Validators.email,
-        Validators.maxLength(100)
-      ]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-       
-      ]]
-    });
-  }
+  registerForm: FormGroup = this.fb.group({
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
+    password: ['', [Validators.required, Validators.minLength(8)]]
+  });
 
   onSubmit(): void {
-    // Check that the form is valid
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
     }
-    
-    // Enable loading
     this.loading = true;
-    this.errorMessage ="";
-    
-    // Call the authentication service
+    this.errorMessage = '';
+
     this.authService.register(this.registerForm.value).subscribe({
       next: (response) => {
-        console.log(' Registration successful', response);
+        console.log('Registration successful', response);
         this.loading = false;
-        // Redirection to /feed is managed in the service
       },
       error: (error) => {
-        console.error(' Registration failed', error);
+        console.error('Registration failed', error);
         this.loading = false;
-        
-        // Managing different types of errors
         if (error.status === 400) {
           if (error.error?.message?.includes('username')) {
-            this.errorMessage = 'Ce nom d\'utilisateur est déjà utilisé';
+            this.errorMessage = "Ce nom d'utilisateur est déjà utilisé";
           } else if (error.error?.message?.includes('email')) {
             this.errorMessage = 'Cet email est déjà utilisé';
           } else {
@@ -77,42 +52,33 @@ export class Register {
         } else if (error.status === 0) {
           this.errorMessage = 'Impossible de se connecter au serveur';
         } else {
-          this.errorMessage = 'Une erreur est survenue lors de l\'inscription';
+          this.errorMessage = "Une erreur est survenue lors de l'inscription";
         }
       }
     });
   }
-      hasError(fieldName: string, errorType: string): boolean {
+
+  hasError(fieldName: string, errorType: string): boolean {
     const field = this.registerForm.get(fieldName);
     return !!(field?.hasError(errorType) && field.touched);
   }
 
   getErrorMessage(fieldName: string): string {
     const field = this.registerForm.get(fieldName);
-    
-    if (field?.hasError('required')) {
-      return 'Ce champ est obligatoire';
-    }
-    
+    if (field?.hasError('required')) return 'Ce champ est obligatoire';
     if (field?.hasError('minlength')) {
-      const minLength = field.errors?.['minlength'].requiredLength;
-      return `Minimum ${minLength} caractères`;
+      const min = field.errors?.['minlength'].requiredLength;
+      return `Minimum ${min} caractères`;
     }
-    
-    if (field?.hasError('email')) {
-      return 'Veuillez entrer une adresse email valide';
-    }
-    
+    if (field?.hasError('email')) return 'Veuillez entrer une adresse email valide';
     if (field?.hasError('maxlength')) {
-      const maxLength = field.errors?.['maxlength'].requiredLength;
-      return `Maximum ${maxLength} caractères`;
+      const max = field.errors?.['maxlength'].requiredLength;
+      return `Maximum ${max} caractères`;
     }
-    
     return '';
   }
-  
 
-   goBack(): void {
-  this.router.navigate(['/']);}  // Redirection vers la page d'accueil
-
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
 }
