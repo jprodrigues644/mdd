@@ -25,12 +25,12 @@ export class Login {
   errorMessage = '';
   
   // Initialize the form with validation rules
-  constructor() {
-    this.loginForm = this.fb.group({
-      usernameOrEmail: ['', Validators.required],
-      password: ['', Validators.required, Validators.minLength(8)],
-    });
-  }
+constructor() {
+  this.loginForm = this.fb.group({
+    usernameOrEmail: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(8)]], // ← tableau []
+  });
+}
 
   // Handle form submission
   onSubmit(): void {
