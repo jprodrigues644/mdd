@@ -29,14 +29,26 @@ public class SubjectServiceImpl implements SubjectService {
         this.subjectMapper = subjectMapper;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectResponse> getAllSubjects() {
-        return subjectRepository.findAll()
-                .stream()
-                .map(subjectMapper::toSubjectResponse)
-                .collect(Collectors.toList());
-    }
+@Override
+@Transactional(readOnly = true)
+public List<SubjectResponse> getAllSubjects(String username) {
+    User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    Set<Long> subscribedIds = user.getSubscriptions()
+            .stream()
+            .map(Subject::getId)
+            .collect(Collectors.toSet());
+
+    return subjectRepository.findAll()
+            .stream()
+            .map(subject -> {
+                SubjectResponse response = subjectMapper.toSubjectResponse(subject);
+                response.setSubscribed(subscribedIds.contains(subject.getId()));
+                return response;
+            })
+            .collect(Collectors.toList());
+}
 
     @Override
     @Transactional(readOnly = true)

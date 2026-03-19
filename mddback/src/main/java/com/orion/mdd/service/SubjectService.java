@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface SubjectService {
 
-    List<SubjectResponse> getAllSubjects();
+    List<SubjectResponse> getAllSubjects(String username);
     SubjectResponse getSubjectById(Long subjectId);
 
     // ✅ MVP endpoints (current user)

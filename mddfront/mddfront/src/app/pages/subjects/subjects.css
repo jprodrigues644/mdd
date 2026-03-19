@@ -1,0 +1,77 @@
+.subjects-container {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.subject-card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.subject-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #222;
+}
+
+.subject-description {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+
+.subscribe-btn {
+  align-self: center;
+  padding: 10px 32px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: #7c6fcf;
+  color: #fff;
+}
+
+.subscribe-btn:hover:not(.subscribed) {
+  background-color: #6558c3;
+}
+
+.subscribe-btn.subscribed {
+  background-color: #aaa;
+  cursor: default;
+}
+
+.loading, .error-message {
+  text-align: center;
+  padding: 48px;
+  color: #888;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
+@media (max-width: 600px) {
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+}

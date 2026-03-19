@@ -1,1 +1,28 @@
-<p>subjects works!</p>
+<app-navbar />
+
+<div class="subjects-container">
+
+  @if (loading) {
+    <div class="loading">Chargement...</div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  <div class="subjects-grid">
+    @for (subject of subjects; track subject.id) {
+      <div class="subject-card">
+        <h2 class="subject-title">{{ subject.name }}</h2>
+        <p class="subject-description">{{ subject.description }}</p>
+        <button
+          class="subscribe-btn"
+          [class.subscribed]="subject.subscribed"
+          (click)="toggleSubscription(subject)">
+          {{ subject.subscribed ? 'Déjà abonné' : "S'abonner" }}
+        </button>
+      </div>
+    }
+  </div>
+
+</div>
