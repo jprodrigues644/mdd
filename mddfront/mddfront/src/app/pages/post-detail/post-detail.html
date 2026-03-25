@@ -1,1 +1,63 @@
-<p>post-detail works!</p>
+<app-navbar />
+
+<div class="post-container">
+
+  <button class="back-btn" (click)="goBack()">←</button>
+
+  @if (loading) {
+    <div class="loading">Chargement...</div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (!loading && post) {
+    <div class="post-layout">
+
+      <div class="post-content-card">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">
+          <span>{{ post.creationDate | date:'dd/MM/yyyy' }}</span>
+          <span>{{ post.authorUsername }}</span>
+          <span class="subject-tag">{{ post.subjectName }}</span>
+        </div>
+        <p class="post-body">{{ post.content }}</p>
+      </div>
+
+      <div class="comments-section">
+        <h2 class="comments-title">Commentaires ({{ post.comments?.length ?? 0 }})</h2>
+
+        <div class="comments-list">
+          @for (comment of post.comments; track comment.id) {
+            <div class="comment-card">
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.authorUsername }}</span>
+                <span class="comment-date">{{ comment.creationDate | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <p class="comment-body">{{ comment.content }}</p>
+            </div>
+          }
+          @if (!post.comments || post.comments.length === 0) {
+            <p class="no-comments">Aucun commentaire pour l'instant.</p>
+          }
+        </div>
+
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form">
+          <label for="content">Ajouter un commentaire</label>
+          <textarea
+            id="content"
+            formControlName="content"
+            rows="4"
+            placeholder="Votre commentaire..."
+          ></textarea>
+          <button type="submit" class="submit-btn" [disabled]="commentForm.invalid || submitting">
+            {{ submitting ? 'Envoi...' : 'Envoyer' }}
+          </button>
+        </form>
+      </div>
+
+    </div>
+  }
+
+</div>
