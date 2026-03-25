@@ -11,6 +11,8 @@ import com.orion.mdd.repository.PostRepository;
 import com.orion.mdd.repository.UserRepository;
 import com.orion.mdd.service.CommentService;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -35,29 +37,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
    @Override
-            public CommentResponse createComment(Long postId, CreateCommentRequest request) {
+@Transactional
+public CommentResponse createComment(Long postId, String username, CreateCommentRequest request) {
+    Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("Post not found"));
 
-                String username = ((UserDetails) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal())
-                        .getUsername();
+    User author = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-                User author = userRepository.findByUsername(username)
-                        .orElseThrow(() -> new RuntimeException("User not found"));
+    Comment comment = new Comment();
+    comment.setContent(request.getContent());
+    comment.setPost(post);
+    comment.setAuthor(author);
+    comment.setCreationDate(LocalDateTime.now());
 
-                Post post = postRepository.findById(postId)
-                        .orElseThrow(() -> new RuntimeException("Post not found"));
-
-                Comment comment = commentMapper.toComment(request);
-                comment.setAuthor(author);
-                comment.setPost(post);
-                comment.setCreationDate(LocalDateTime.now());
-
-                Comment savedComment = commentRepository.save(comment);
-
-                return commentMapper.toCommentResponse(savedComment);
-            }
+    Comment saved = commentRepository.save(comment);
+    return commentMapper.toCommentResponse(saved);
+}
 
     @Override
     public List<CommentResponse> getCommentsByPost(Long postId) {
