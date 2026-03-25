@@ -1,0 +1,111 @@
+.create-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.create-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #333;
+  position: absolute;
+  left: 0;
+  padding: 0;
+}
+
+.create-header h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: #222;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 36px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 11px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #7c6fcf;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 200px;
+}
+
+.error {
+  font-size: 0.78rem;
+  color: #d32f2f;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.submit-btn {
+  align-self: center;
+  padding: 12px 56px;
+  background-color: #7c6fcf;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #6558c3;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

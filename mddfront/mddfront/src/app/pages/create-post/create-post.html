@@ -1,1 +1,62 @@
-<p>create-post works!</p>
+<app-navbar />
+
+<div class="create-container">
+
+  <div class="create-header">
+    <button class="back-btn" (click)="goBack()">←</button>
+    <h1>Créer un article</h1>
+  </div>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="create-form">
+  <div class="form-group">
+      <label for="subjectId"></label>
+      <select id="subjectId" formControlName="subjectId">
+        <option value="" disabled>Sélectionner un thème</option>
+        @for (subject of subjects; track subject.id) {
+          <option [value]="subject.id">{{ subject.name }}</option>
+        }
+      </select>
+      @if (hasError('subjectId', 'required')) {
+        <span class="error">Veuillez sélectionner un thème</span>
+      }
+    </div>
+    <div class="form-group">
+      <label for="title"></label>
+      <input type="text" id="title" formControlName="title" placeholder="Titre de l'article" />
+      @if (hasError('title', 'required')) {
+        <span class="error">Ce champ est obligatoire</span>
+      }
+      @if (hasError('title', 'minlength')) {
+        <span class="error">Minimum 3 caractères</span>
+      }
+    </div>
+
+  
+
+    <div class="form-group">
+      <label for="content"> </label>
+      <textarea
+        id="content"
+        formControlName="content"
+        rows="10"
+        placeholder="Contenu de l'article..."
+      ></textarea>
+      @if (hasError('content', 'required')) {
+        <span class="error">Ce champ est obligatoire</span>
+      }
+      @if (hasError('content', 'minlength')) {
+        <span class="error">Minimum 10 caractères</span>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
+
+    <button type="submit" class="submit-btn" [disabled]="postForm.invalid || loading">
+      {{ loading ? 'Publication...' : 'Créer' }}
+    </button>
+
+  </form>
+
+</div>
