@@ -1,59 +1,179 @@
+/* ===== VARIABLES ===== */
+:host {
+  --navbar-height: 70px;
+  --border-color: #ddd;
+  --logo-height: 48px;
+  --purple: #7c6fcf;
+  --logout-color: #c0392b;
+  --text-color: #333;
+  --bg-color: #fff;
+  --icon-color: #555;
+}
+
+/* ===== CHECKBOX CACHÉ ===== */
+.menu-toggle-input {
+  display: none;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
-  height: 70px;
-  border-bottom: 1.5px solid #ddd;
-  background: #fff;
+  align-items: center;
+  height: var(--navbar-height);
+  padding: 0 24px;
+  background: var(--bg-color);
+  border-bottom: 1.5px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+/* ===== LOGO ===== */
 .navbar-logo {
-  height: 48px;
+  height: var(--logo-height);
   cursor: pointer;
+  display: block;
 }
 
+/* ===== DESKTOP MENU ===== */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 8px;
 }
 
 .nav-link {
-  font-size: 1rem;
-  color: #333;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-color);
   text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--purple);
+}
+
+.nav-link.active-link {
+  color: var(--purple);
+  font-weight: 600;
 }
 
 .nav-link.logout {
-  color: #7c6fcf;
-  font-weight: 500;
-}
-
-.nav-link.active {
+  color: var(--logout-color);
   font-weight: 600;
-  color: #222;
 }
 
 .profile-btn {
-  background: none;
-  border: 1.5px solid #aaa;
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #666;
-  padding: 4px;
+  color: var(--icon-color);
 }
 
-.profile-btn:hover {
-  border-color: #7c6fcf;
-  color: #7c6fcf;
+.profile-btn mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+/* ===== HAMBURGER ===== */
+.menu-btn {
+  display: none;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.15s;
+}
+
+.menu-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.menu-btn mat-icon {
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+}
+
+/* ===== MENU MOBILE ===== */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: var(--bg-color);
+  border-bottom: 1.5px solid var(--border-color);
+  padding: 0 16px;
+  gap: 4px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.mobile-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 8px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mobile-menu a mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-menu a:hover {
+  background: rgba(124, 111, 207, 0.08);
+  color: var(--purple);
+}
+
+.mobile-menu a.logout {
+  color: var(--logout-color);
+}
+
+.mobile-menu a.logout:hover {
+  background: rgba(192, 57, 43, 0.08);
+}
+
+/* ===== TOGGLE CSS : checkbox coché → menu ouvert ===== */
+.menu-toggle-input:checked ~ .mobile-menu {
+  max-height: 300px;
+  padding: 8px 16px 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .menu-btn {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  .navbar {
+    padding: 0 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+
+  .mobile-menu {
+    display: none !important;
+  }
 }

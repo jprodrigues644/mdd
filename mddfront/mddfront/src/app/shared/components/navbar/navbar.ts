@@ -1,11 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule , MatButtonModule,MatSidenavModule,
+  MatIconModule,
+  MatButtonModule,
+  MatListModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
