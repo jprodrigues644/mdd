@@ -2,6 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user';
+import { SubjectService } from '../../core/services/subject'; //
 import { UserResponse } from '../../shared/models/user.model';
 import { Navbar } from '../../shared/components/navbar/navbar';
 
@@ -14,6 +15,7 @@ import { Navbar } from '../../shared/components/navbar/navbar';
 })
 export class Profile implements OnInit {
   private userService = inject(UserService);
+  private subjectService = inject(SubjectService);
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
 
@@ -30,6 +32,10 @@ export class Profile implements OnInit {
   });
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadUser(): void {
     this.userService.getMe().subscribe({
       next: (user) => {
         this.user = user;
@@ -78,6 +84,21 @@ export class Profile implements OnInit {
         console.error('Update failed', err);
         this.saving = false;
         this.errorMessage = 'Erreur lors de la mise à jour';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  unsubscribe(subjectId: number): void {
+    this.subjectService.unsubscribe(subjectId).subscribe({
+      next: () => {
+        this.successMessage = 'Désabonné avec succès !';
+        this.errorMessage = '';
+        this.loadUser(); // refresh user data to update the list of subscribed subjects
+      },
+      error: (err) => {
+        console.error('Unsubscribe failed', err);
+        this.errorMessage = 'Erreur lors du désabonnement.';
         this.cdr.detectChanges();
       }
     });
