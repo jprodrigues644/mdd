@@ -67,14 +67,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MapStruct API -->
+        <!-- MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- Lombok + MapStruct Binding (IMPORTANT) -->
+        <!-- Lombok + MapStruct Binding -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
@@ -113,22 +113,20 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-test</artifactId>
-        <scope>test</scope>
+
+        <!-- H2 (in-memory DB for tests) -->
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>test</scope>
 </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
 
-            <!-- Compiler Plugin (Java 21 + MapStruct + Lombok) -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -173,10 +171,23 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!-- JaCoCo Plugin with 70% threshold -->
+                <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.11</version>
+
+            <configuration>
+                <excludes>
+                    <exclude>com/orion/mdd/mapper/**</exclude>
+                    <exclude>com/orion/mdd/dto/**</exclude>
+                    <exclude>com/orion/mdd/model/**</exclude>
+                    <exclude>com/orion/mdd/exception/**</exclude>
+                    <exclude>com/orion/mdd/security/**</exclude>
+                    <exclude>com/orion/mdd/config/**</exclude>
+                </excludes>
+            </configuration>
+
             <executions>
                 <execution>
                     <goals>
@@ -191,6 +202,34 @@
                         <goal>report</goal>
                     </goals>
                 </execution>
+
+                <execution>
+                    <id>jacoco-check</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <rules>
+                            <rule>
+                                <element>PACKAGE</element>
+                                <limits>
+                                    <limit>
+                                        <counter>LINE</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>0.70</minimum>
+                                    </limit>
+                                    <limit>
+                                        <counter>BRANCH</counter>
+                                        <value>COVEREDRATIO</value>
+                                        <minimum>0.70</minimum>
+                                    </limit>
+                                </limits>
+                            </rule>
+                        </rules>
+                    </configuration>
+                </execution>
+
             </executions>
         </plugin>
 
