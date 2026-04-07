@@ -24,7 +24,7 @@ export interface PostResponse {
 export interface CommentResponse {
   id: number;
   content: string;
-  authorUsername: string;
+  author: string;
   creationDate: string;
 }
 
