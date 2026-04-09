@@ -9,12 +9,15 @@ import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule , MatButtonModule,MatSidenavModule,
-  MatIconModule,
-  MatButtonModule,
-  MatListModule],
+  imports: [
+    RouterModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+  ],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrls: ['./navbar.css'],
 })
 export class Navbar {
   private auth = inject(Auth);

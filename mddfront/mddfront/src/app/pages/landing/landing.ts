@@ -14,13 +14,13 @@ export class Landing {
 
   // Method for the "Connect" button
   onLoginClick(): void {
-    console.log('Bouton "Se connecter" cliqué - Redirection vers /login');
+    
     this.router.navigate(['/login']);
   }
 
   // Method for the "Register" button
   onRegisterClick(): void {
-    console.log('Bouton "S\'inscrire" cliqué - Redirection vers /register');
+    
     this.router.navigate(['/register']);
   }
 }

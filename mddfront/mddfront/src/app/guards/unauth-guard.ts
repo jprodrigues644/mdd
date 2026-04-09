@@ -4,17 +4,17 @@ import { CanActivateFn, Router } from '@angular/router';
 export const unauthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
-  // Vérifie si l'utilisateur est authentifié en cherchant un token dans localStorage
+  // vefiries if a token exists in localStorage
   const token = localStorage.getItem('token');
 
   if (token) {
-    // Si un token existe → Utilisateur déjà connecté, rediriger vers /feed et refuser l'accès
-    console.log('Déjà authentifié - Redirection vers /feed...');
+    // If a token exists → User already logged in, redirect to /feed and deny access
+    
     router.navigate(['/feed']);
     return true;
   }
 
-  // Pas de token → Autoriser l'accès aux pages de login/register
+  // No token → Allow access to login/register pages
   return true;
 };
 

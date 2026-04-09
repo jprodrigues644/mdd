@@ -5,8 +5,29 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "jest --passWithNoTests",
-    "test:user": "jest src/app/core/services/user.spec.ts --passWithNoTests"
+    "test:auth": "jest src/app/core/services/auth.spec.ts --passWithNoTests",
+    "test:user": "jest src/app/core/services/user.spec.ts --passWithNoTests", 
+    "test:subject": "jest src/app/core/services/subject.spec.ts --passWithNoTests",
+    "test:post": "jest src/app/core/services/post.spec.ts --passWithNoTests",
+    "test:navbar": "jest src/app/shared/components/navbar/navbar.spec.ts --passWithNoTests",
+    "test:create-post": "jest src/app/pages/create-post/create-post.spec.ts --passWithNoTests",
+    "test:feed": "jest src/app/pages/feed/feed.spec.ts --passWithNoTests",
+    "test:landing": "jest src/app/pages/landing/landing.spec.ts --passWithNoTests",
+    "test:login": "jest src/app/pages/login/login.spec.ts --passWithNoTests",
+    "test:post-detail": "jest src/app/pages/post-detail/post-detail.spec.ts --passWithNoTests",
+    "test:profile": "jest src/app/pages/profile/profile.spec.ts --passWithNoTests",
+    "test:register": "jest src/app/pages/register/register.spec.ts --passWithNoTests",
+    "test:subjects": "jest src/app/pages/subjects/subjects.spec.ts --passWithNoTests",
+    "test:interceptor": "jest src/app/core/interceptors/jwt.interceptor.spec.ts --passWithNoTests",
+    "test:unauth-guard": "jest src/app/guards/unauth.guard.spec.ts --passWithNoTests",
+    "test:auth-guard": "jest src/app/guards/auth.guard.spec.ts --passWithNoTests",
+
+
+
+    
+     "coverage": "jest --coverage"
   },
+   
   "dependencies": {
     "@angular/cdk": "~21.2.1",
     "@angular/compiler": "^21.2.0",
@@ -26,10 +47,11 @@
     "@angular/core": "^21.2.7",
     "@angular/material": "^21.2.1",
     "@angular/platform-browser-dynamic": "^21.2.7",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.17.19",
-    "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "jest-preset-angular": "^16.1.2",
     "jsdom": "^29.0.2",
     "ts-jest": "^29.4.9",

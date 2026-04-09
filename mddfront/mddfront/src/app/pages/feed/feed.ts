@@ -15,7 +15,7 @@ import { Navbar } from '../../shared/components/navbar/navbar';
 export class Feed implements OnInit {
   private postService = inject(PostService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef); // ← ajout
+  private cdr = inject(ChangeDetectorRef); 
 
   posts: PostListResponse[] = [];
   loading = true;
@@ -31,13 +31,13 @@ export class Feed implements OnInit {
       next: (posts) => {
         this.posts = posts;
         this.loading = false;
-        this.cdr.detectChanges(); // ← ajout
+        this.cdr.detectChanges(); 
       },
       error: (err) => {
         console.error('Failed to load feed', err);
         this.errorMessage = 'Impossible de charger les articles';
         this.loading = false;
-        this.cdr.detectChanges(); // ← ajout
+        this.cdr.detectChanges(); 
       }
     });
   }
