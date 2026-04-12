@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     /**
-     * Recommandation: mettre l'ID dans le "subject" (sub) et stocker username/email en claims.
+     *                                 
      * - subject (sub) = userId (String)
      * - claim "username" = username
      * - claim "email" = email (optionnel)
